@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/new/image">
+        <file alias="save">save.png</file>
+        <file alias="quit">quit.png</file>
+        <file alias="base">kz.png</file>
+        <file alias="savePack">savePack.png</file>
+    </qresource>
+</RCC>
