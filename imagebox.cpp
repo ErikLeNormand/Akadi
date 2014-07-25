@@ -2,8 +2,6 @@
 
 #include <QFileDialog>
 
-#include <QDebug>
-
 ImageBox::ImageBox(int fromRow, int fromCol, int height, int width)
 {
     loaded = false;
@@ -20,18 +18,6 @@ ImageBox::ImageBox(int fromRow, int fromCol, int height, int width)
 
     window = new ImageTrim(this, QSize(x,y));
     QObject::connect(window, SIGNAL(accepted(QImage)),this, SLOT(setImage(QImage)));
-}
-
-ImageBox::ImageBox(bool empty, int fromCol, int fromRow, int width, int height)
-{
-    col = fromCol;
-    row = fromRow;
-    x = width;
-    y = height;
-    QSize s(32*x, 32*y);
-
-    this->setMaximumSize(s);
-    this->setMinimumSize(s);
 }
 
 void ImageBox::mousePressEvent ( QMouseEvent * event )

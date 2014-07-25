@@ -16,7 +16,7 @@ ImageTrim::ImageTrim(QWidget *parent, QSize size) :
     {
         imgSize = QSize(512/y*x,512);
     }
-    this->resize(imgSize);
+    this->setFixedSize(imgSize.width()+22, imgSize.height()+51);
 
     image = QImage(imgSize, QImage::Format_ARGB32);
     image.fill(QColor(0,0,0,0));
@@ -127,12 +127,15 @@ void ImageTrim::acceptModif()
 void ImageTrim::loadImage()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
-    imgSrc = QImage(fileName);
-    imgDone = imgSrc.copy();
-    imgFinal = QImage(image);
-    pos = QPoint(0,0);
-    QPainter painter(&imgFinal);
-    painter.drawImage(pos, imgSrc);
-    painter.end();
-    editImage->setPixmap(QPixmap::fromImage(imgFinal));
+    if (fileName != "")
+    {
+        imgSrc = QImage(fileName);
+        imgDone = QImage(imgSrc);
+        imgFinal = QImage(image);
+        pos = QPoint(0,0);
+        QPainter painter(&imgFinal);
+        painter.drawImage(pos, imgSrc);
+        painter.end();
+        editImage->setPixmap(QPixmap::fromImage(imgFinal));
+    }
 }

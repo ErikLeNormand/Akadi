@@ -29,7 +29,6 @@ protected:
 
 public:
     ImageBox(int fromRow = 0, int fromCol = 0, int height = 1, int width = 1);
-    ImageBox(bool empty, int fromRow = 0, int fromCol = 0, int height = 1, int width = 1);
     int getCol() const;
     int getRow() const;
     int getx() const;

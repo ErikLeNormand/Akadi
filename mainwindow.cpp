@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Minecraft painting generator");
 
     mapSize = 512;
     QImage base(":/new/image/base");
@@ -85,8 +86,6 @@ MainWindow::MainWindow(QWidget *parent) :
     comboSize->addItem("4096", 4096);
 
     ui->mainToolBar->addWidget(comboSize);
-
-//    this->setFixedSize(534,551);
 }
 
 MainWindow::~MainWindow()
@@ -115,7 +114,6 @@ void MainWindow::on_actionGenerate_triggered()
         ui->statusBar->showMessage("The file was generated.", 2000);
     }
 }
-
 
 void MainWindow::on_actionGeneratePack_triggered()
 {

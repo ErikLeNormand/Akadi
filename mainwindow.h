@@ -24,10 +24,10 @@ private slots:
     void on_actionGeneratePack_triggered();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow * ui;
     QList<ImageBox*> imgBoxList;
     int mapSize;
-    QComboBox* comboSize;
+    QComboBox * comboSize;
 };
 
 #endif // MAINWINDOW_H
