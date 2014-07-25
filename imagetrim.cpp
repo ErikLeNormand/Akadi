@@ -3,8 +3,6 @@
 #include <QPainter>
 #include <QFileDialog>
 
-#include <QDebug>
-
 ImageTrim::ImageTrim(QWidget *parent, QSize size) :
     QDialog(parent)
 {
@@ -96,21 +94,28 @@ void ImageTrim::wheelEvent(QWheelEvent *event)
     int angle = event->angleDelta().y();
     if (angle < 0)
     {
-        ratio = ratio - 0.01;
+        ratio = ratio - 0.02;
     }
     else
     {
-        ratio = ratio + 0.01;
+        ratio = ratio + 0.02;
     }
+
+    int x = imgDone.width();
+    int y = imgDone.height();
     imgDone = imgSrc.scaledToWidth(imgSrc.width()*ratio);
+
+    x = imgDone.width() - x;
+    pos.setX(pos.x() - x/2);
+
+    y = imgDone.height() - y;
+    pos.setY(pos.y() - y/2);
 
     imgFinal = QImage(image);
     QPainter painter(&imgFinal);
     painter.drawImage(pos, imgDone);
     painter.end();
     editImage->setPixmap(QPixmap::fromImage(imgFinal));
-
-    qDebug() << imgDone;
 }
 
 void ImageTrim::acceptModif()

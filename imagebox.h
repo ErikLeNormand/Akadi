@@ -24,7 +24,6 @@ signals:
 public slots:
     void setImage(QImage img);
 
-
 protected:
     void mousePressEvent ( QMouseEvent * event ) ;
 

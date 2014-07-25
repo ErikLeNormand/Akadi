@@ -2,7 +2,6 @@
 #define IMAGETRIM_H
 
 #include <QVBoxLayout>
-#include <QDesktopWidget>
 #include <QPushButton>
 #include <QLabel>
 #include <QDialog>

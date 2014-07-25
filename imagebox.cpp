@@ -18,9 +18,6 @@ ImageBox::ImageBox(int fromRow, int fromCol, int height, int width)
     this->setMaximumSize(imageSize);
     this->setMinimumSize(imageSize);
 
-    image = QImage("../test.png");
-    this->setPixmap(QPixmap::fromImage(image.scaled(imageSize)));
-
     window = new ImageTrim(this, QSize(x,y));
     QObject::connect(window, SIGNAL(accepted(QImage)),this, SLOT(setImage(QImage)));
 }
@@ -52,7 +49,6 @@ void ImageBox::mousePressEvent ( QMouseEvent * event )
     }
     else
     {
-//        window->setImage(image);
         window->open();
     }
 }
