@@ -23,11 +23,15 @@ private slots:
 
     void on_actionGeneratePack_triggered();
 
+    void on_actionOpenFile_triggered();
+
 private:
     Ui::MainWindow * ui;
     QList<ImageBox*> imgBoxList;
     int mapSize;
     QComboBox * comboSize;
+
+    void setImage(QImage image);
 };
 
 #endif // MAINWINDOW_H

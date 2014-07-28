@@ -27,9 +27,12 @@ void ImageBox::mousePressEvent ( QMouseEvent * event )
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
         if (fileName != "")
         {
-            image = QImage(fileName);
+            if (image.load(fileName))
+            {
+                this->setImage(image);
+                window->setImage(image);
+            }
             loaded = true;
-            window->setImage(image);
             window->open();
         }
     }
@@ -67,7 +70,7 @@ QPoint ImageBox::getPos() const
 void ImageBox::setImage(QImage img)
 {
     image = QImage(img);
-    this->setPixmap(QPixmap::fromImage(image.scaled(imageSize)));
+    this->setPixmap(QPixmap::fromImage(image.scaled(imageSize, Qt::KeepAspectRatio)));
 }
 
 QImage ImageBox::getImage(int mapSize) const

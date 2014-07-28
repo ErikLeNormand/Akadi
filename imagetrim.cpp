@@ -36,8 +36,8 @@ ImageTrim::ImageTrim(QWidget *parent, QSize size) :
     diagLayout->addWidget(editImage);
     diagLayout->addLayout(buttonLayout);
 
-    buttAccept = new QPushButton("Valid");
-    buttLoad = new QPushButton("Reload");
+    buttAccept = new QPushButton(tr("Valid"));
+    buttLoad = new QPushButton(tr("Reload"));
     buttonLayout->addWidget(buttAccept);
     buttonLayout->addWidget(buttLoad);
 
@@ -94,11 +94,11 @@ void ImageTrim::wheelEvent(QWheelEvent *event)
     int angle = event->angleDelta().y();
     if (angle < 0)
     {
-        ratio = ratio - 0.02;
+        ratio = ratio * 9/10;
     }
     else
     {
-        ratio = ratio + 0.02;
+        ratio = ratio * 10/9;
     }
 
     int x = imgDone.width();
@@ -120,6 +120,10 @@ void ImageTrim::wheelEvent(QWheelEvent *event)
 
 void ImageTrim::acceptModif()
 {
+    imgFinal = QImage(image);
+    QPainter painter(&imgFinal);
+    painter.drawImage(pos, imgDone);
+    painter.end();
     emit accepted(imgFinal);
     this->accept();
 }
@@ -129,13 +133,16 @@ void ImageTrim::loadImage()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
     if (fileName != "")
     {
-        imgSrc = QImage(fileName);
-        imgDone = QImage(imgSrc);
-        imgFinal = QImage(image);
-        pos = QPoint(0,0);
-        QPainter painter(&imgFinal);
-        painter.drawImage(pos, imgSrc);
-        painter.end();
-        editImage->setPixmap(QPixmap::fromImage(imgFinal));
+        if (imgSrc.load(fileName))
+        {
+            this->setImage(image);
+            imgDone = QImage(imgSrc);
+            imgFinal = QImage(image);
+            pos = QPoint(0,0);
+            QPainter painter(&imgFinal);
+            painter.drawImage(pos, imgSrc);
+            painter.end();
+            editImage->setPixmap(QPixmap::fromImage(imgFinal));
+        }
     }
 }

@@ -48,6 +48,7 @@
    </attribute>
    <addaction name="actionGenerate"/>
    <addaction name="actionGeneratePack"/>
+   <addaction name="actionOpenFile"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionGenerate">
@@ -75,6 +76,15 @@
    </property>
    <property name="text">
     <string>Generate pack</string>
+   </property>
+  </action>
+  <action name="actionOpenFile">
+   <property name="icon">
+    <iconset resource="ressource.qrc">
+     <normaloff>:/new/image/open</normaloff>:/new/image/open</iconset>
+   </property>
+   <property name="text">
+    <string>Open file</string>
    </property>
   </action>
  </widget>

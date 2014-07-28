@@ -4,5 +4,6 @@
         <file alias="quit">quit.png</file>
         <file alias="base">kz.png</file>
         <file alias="savePack">savePack.png</file>
+        <file alias="open">open.png</file>
     </qresource>
 </RCC>
