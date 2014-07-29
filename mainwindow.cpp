@@ -1,16 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QLabel>
-#include <QList>
 #include <QPainter>
 #include <QFileDialog>
 
-#include <QDebug>
-
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->setWindowTitle(tr("Minecraft painting generator"));
@@ -75,11 +69,13 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setImage(base);
 
     comboSize = new QComboBox();
-    comboSize->addItem("256", 256);
-    comboSize->addItem("512", 512);
-    comboSize->addItem("1024", 1024);
-    comboSize->addItem("2048", 2048);
-    comboSize->addItem("4096", 4096);
+    comboSize->addItem(tr("256 px : Soup pixel"), 256);
+    comboSize->addItem(tr("512 px : For console"), 512);
+    comboSize->addItem(tr("1024 px : No glass ?"), 1024);
+    comboSize->addItem(tr("2048 px : Not bad"), 2048);
+    comboSize->addItem(tr("4096 px : Recommended"), 4096);
+    comboSize->addItem(tr("8192 px : For PC Gamer"), 8192);
+    comboSize->addItem(tr("16384 px : Insame"), 16384);
 
     if (QIcon::hasThemeIcon("document-open"))
     {
@@ -127,19 +123,7 @@ void MainWindow::on_actionGenerate_triggered()
 
     if (fileName != "")
     {
-        mapSize = comboSize->currentData().toInt();
-        QImage image(QSize(mapSize,mapSize), QImage::Format_ARGB32);
-        image.fill(QColor(0,0,0,0));
-
-        QPainter painter(&image);
-        for (int i=0; i<imgBoxList.size(); i++)
-        {
-            painter.drawImage(imgBoxList.at(i)->getPos()*mapSize/16, imgBoxList.at(i)->getImage(mapSize));
-        }
-        painter.end();
-
-        image.save(fileName);
-        ui->statusBar->showMessage(tr("The file was generated."), 2000);
+        this->generate(fileName);
     }
 }
 
@@ -149,21 +133,10 @@ void MainWindow::on_actionGeneratePack_triggered()
 
     if (dirName != "")
     {
-        mapSize = comboSize->currentData().toInt();
-        QImage image(QSize(mapSize,mapSize), QImage::Format_ARGB32);
-        image.fill(QColor(0,0,0,0));
-
-        QPainter painter(&image);
-        for (int i=0; i<imgBoxList.size(); i++)
-        {
-            painter.drawImage(imgBoxList.at(i)->getPos()*mapSize/16, imgBoxList.at(i)->getImage(mapSize));
-        }
-        painter.end();
-
         QDir dir(dirName + "/PaintingOnly/assets/minecraft/textures/painting");
         dir.mkpath(".");
-        image.save(dir.path() + "/paintings_kristoffer_zetterstrand.png");
-        ui->statusBar->showMessage(tr("The file was generated."), 2000);
+        QString fileName = dir.path() + "/paintings_kristoffer_zetterstrand.png";
+        this->generate(fileName);
     }
 }
 
@@ -183,6 +156,27 @@ void MainWindow::on_actionOpenFile_triggered()
         }
     }
 }
+
+void MainWindow::generate(QString fileName)
+{
+    ui->statusBar->showMessage(tr("Please wait during image generation."));
+
+    mapSize = comboSize->currentData().toInt();
+    QImage image(QSize(mapSize,mapSize), QImage::Format_ARGB32);
+    image.fill(QColor(0,0,0,0));
+
+    QPainter painter(&image);
+    for (int i=0; i<imgBoxList.size(); i++)
+    {
+        painter.drawImage(imgBoxList.at(i)->getPos()*mapSize/16, imgBoxList.at(i)->getImage(mapSize));
+    }
+    painter.end();
+
+    image.save(fileName);
+    ui->statusBar->clearMessage();
+    ui->statusBar->showMessage(tr("The file is generated."), 2000);
+}
+
 
 
 

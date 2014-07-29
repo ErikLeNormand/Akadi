@@ -11,35 +11,13 @@ ImageBox::ImageBox(int fromRow, int fromCol, int height, int width)
     x = width;
     y = height;
 
-    imageSize = QSize(32*x, 32*y);
+    displaySize = QSize(32*x, 32*y);
 
-    this->setMaximumSize(imageSize);
-    this->setMinimumSize(imageSize);
+    this->setMaximumSize(displaySize);
+    this->setMinimumSize(displaySize);
 
     window = new ImageTrim(this, QSize(x,y));
     QObject::connect(window, SIGNAL(accepted(QImage)),this, SLOT(setImage(QImage)));
-}
-
-void ImageBox::mousePressEvent ( QMouseEvent * event )
-{
-    if (!loaded)
-    {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
-        if (fileName != "")
-        {
-            if (image.load(fileName))
-            {
-                this->setImage(image);
-                window->setImage(image);
-            }
-            loaded = true;
-            window->open();
-        }
-    }
-    else
-    {
-        window->open();
-    }
 }
 
 int ImageBox::getx() const
@@ -67,16 +45,39 @@ QPoint ImageBox::getPos() const
     return QPoint(col,row);
 }
 
-void ImageBox::setImage(QImage img)
-{
-    image = QImage(img);
-    this->setPixmap(QPixmap::fromImage(image.scaled(imageSize, Qt::KeepAspectRatio)));
-}
-
 QImage ImageBox::getImage(int mapSize) const
 {
     QSize scaledSize(mapSize/16*x, mapSize/16*y);
     return image.scaled(scaledSize);
+}
+
+void ImageBox::setImage(QImage img)
+{
+    image = QImage(img);
+    this->setPixmap(QPixmap::fromImage(image.scaled(displaySize, Qt::KeepAspectRatio)));
+}
+
+void ImageBox::mousePressEvent ( QMouseEvent * event )
+{
+    event->ignore();
+    if (!loaded)
+    {
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
+        if (fileName != "")
+        {
+            if (image.load(fileName))
+            {
+                this->setImage(image);
+                window->setImage(image);
+            }
+            loaded = true;
+            window->open();
+        }
+    }
+    else
+    {
+        window->open();
+    }
 }
 
 

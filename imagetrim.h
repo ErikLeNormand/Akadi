@@ -1,3 +1,9 @@
+/*!
+  * \file imagetrim.h
+  * \author Erik Le Normand
+  * \version 1.0
+  * \date 29/07/2014
+  **/
 #ifndef IMAGETRIM_H
 #define IMAGETRIM_H
 
@@ -7,42 +13,84 @@
 #include <QDialog>
 #include <QWheelEvent>
 
+//! The image editor class.
+/*!
+ * ImageTrim is a window used to edit an image.
+ * Used to move and to resize image display in a painting.
+*/
 class ImageTrim : public QDialog
 {
     Q_OBJECT
 
 private:
-    QSize imgSize;
-    QImage image;
-    QImage imgSrc;
-    QImage imgDone;
-    QImage imgFinal;
-    double ratio;
-    QVBoxLayout * diagLayout;
-    QHBoxLayout * buttonLayout;
-    QLabel * editImage;
-    QPushButton * buttAccept;
-    QPushButton * buttLoad;
-    QPoint pos;
-    QPoint mousePos0;
-    QPoint mousePos1;
-
-protected:
-    void mousePressEvent(QMouseEvent * event);
-    void mouseMoveEvent(QMouseEvent * event);
-    void mouseReleaseEvent(QMouseEvent * event);
-    void wheelEvent(QWheelEvent * event);
+    QSize displaySize;          /*!< Display Size, same format than painting */
+    QImage image;               /*!< Draw plan */
+    QImage imgSrc;              /*!< Image without modification */
+    QImage imgScaled;           /*!< Scaled image */
+    QImage imgFinal;            /*!< Final image */
+    double ratio;               /*!< Ratio used to resize image */
+    QPoint pos;                 /*!< Image position */
+    QPoint mousePos0;           /*!< Mouse position on mouse press */
+    QPoint mousePos1;           /*!< Mouse position on mouse release */
+    QVBoxLayout * diagLayout;   /*!< Main layout */
+    QHBoxLayout * buttonLayout; /*!< Button layout */
+    QLabel * editImage;         /*!< Image display */
+    QPushButton * buttAccept;   /*!< Button to valid modification */
+    QPushButton * buttLoad;     /*!< Button to load a new image */
 
 public:
+    /*!
+     * \brief Constructor
+     * \param size Format size of the painting used to resize window
+     *
+     * Window where user can resize and move the loaded image.
+     * Format size corresponds to painting format.
+     */
     explicit ImageTrim(QWidget * parent, QSize size);
+    /*!
+     * \brief Load an image
+     * \param img New image to load.
+     *
+     * Change image by a new image and reset parameter changes.
+     */
     void setImage(QImage img);
 
+protected:
+    /*!
+     * \brief Save mouse position.
+     */
+    void mousePressEvent(QMouseEvent * event);
+    /*!
+     * \brief Move image with the mouse cursor.
+     */
+    void mouseMoveEvent(QMouseEvent * event);
+    /*!
+     * \brief Change final image position .
+     */
+    void mouseReleaseEvent(QMouseEvent * event);
+    /*!
+     * \brief Resize image on wheel move.
+     */
+    void wheelEvent(QWheelEvent * event);
+
 signals:
+    /*!
+     * \brief Signal to transmit image
+     * \param img Final image
+     */
     void accepted(QImage img);
 
 public slots:
-    void acceptModif();
+    /*!
+     * \brief Open window to load new image.
+     */
     void loadImage();
+    /*!
+     * \brief Accept image and with changes
+     *
+     * Emit a signal with final image.
+     */
+    void acceptModif();
 
 };
 
