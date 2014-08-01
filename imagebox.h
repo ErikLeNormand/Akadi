@@ -71,7 +71,7 @@ public slots:
      * \brief Change image for the painting
      * \param img QImage to load
      */
-    void setImage(QImage img);
+    void setImage(QImage img, bool newImg = false);
 
 protected:
     /*!

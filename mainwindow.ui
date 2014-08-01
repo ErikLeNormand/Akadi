@@ -35,6 +35,7 @@
     </property>
     <addaction name="actionGenerate"/>
     <addaction name="actionGeneratePack"/>
+    <addaction name="actionOpenFile"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>

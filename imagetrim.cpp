@@ -31,6 +31,7 @@ ImageTrim::ImageTrim(QWidget *parent, QSize size) : QDialog(parent)
     this->setLayout(diagLayout);
     editImage = new QLabel();
     editImage->setIndent(100);
+    editImage->setStyleSheet("background-color:white;border: 1px solid black;");
 
     diagLayout->addWidget(editImage);
     diagLayout->addLayout(buttonLayout);
@@ -50,10 +51,23 @@ void ImageTrim::setImage(QImage img)
     imgScaled = img;
     imgFinal = img;
     pos = QPoint(0,0);
+    ratio = 1;
+
+    double x = double(displaySize.width()) / double(img.width());
+    double y = double(displaySize.height()) / double(img.height());
+    if (img.width()*y < displaySize.width())
+    {
+        ratio = x;
+    }
+    else
+    {
+        ratio = y;
+    }
+    imgScaled = imgSrc.scaledToWidth(imgSrc.width()*ratio);
 
     QImage tmpImage(image);
     QPainter painter(&tmpImage);
-    painter.drawImage(pos, imgSrc);
+    painter.drawImage(pos, imgScaled);
     painter.end();
     editImage->setPixmap(QPixmap::fromImage(tmpImage));
 }
@@ -98,11 +112,12 @@ void ImageTrim::wheelEvent(QWheelEvent * event)
     int angle = event->angleDelta().y();
     if (angle < 0)
     {
-        ratio = ratio * 9/10;
+//        ratio = ratio * 29/30;
+        ratio = ratio * 49/50;
     }
     else
     {
-        ratio = ratio * 10/9;
+        ratio = ratio * 50/49;
     }
 
     int x = imgScaled.width();
@@ -137,9 +152,10 @@ void ImageTrim::loadImage()
 
 void ImageTrim::acceptModif()
 {
-    imgFinal = QImage(image);
+    imgFinal = QImage(image.scaled(displaySize*4));
     QPainter painter(&imgFinal);
-    painter.drawImage(pos, imgScaled);
+    painter.drawImage(pos*4, imgSrc.scaledToWidth(imgSrc.width()*ratio*4));
+
     painter.end();
     emit accepted(imgFinal);
     this->accept();

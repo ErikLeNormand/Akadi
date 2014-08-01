@@ -69,13 +69,13 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent), ui(new Ui::MainW
     this->setImage(base);
 
     comboSize = new QComboBox();
-    comboSize->addItem(tr("256 px : Soup pixel"), 256);
+    comboSize->addItem(tr("256 px : Pixel soup"), 256);
     comboSize->addItem(tr("512 px : For console"), 512);
     comboSize->addItem(tr("1024 px : No glass ?"), 1024);
-    comboSize->addItem(tr("2048 px : Not bad"), 2048);
+    comboSize->addItem(tr("2048 px : Can forgive"), 2048);
     comboSize->addItem(tr("4096 px : Recommended"), 4096);
     comboSize->addItem(tr("8192 px : For PC Gamer"), 8192);
-    comboSize->addItem(tr("16384 px : Insame"), 16384);
+//    comboSize->addItem(tr("12288 px : Insame"), 12288); Limited by ImageTrim
 
     if (QIcon::hasThemeIcon("document-open"))
     {
@@ -113,7 +113,7 @@ void MainWindow::setImage(QImage image)
         imgBoxList[i]->setImage(image.copy(imgBoxList.at(i)->getCol()*ratio,
                                            imgBoxList.at(i)->getRow()*ratio,
                                            imgBoxList.at(i)->getx()*ratio,
-                                           imgBoxList.at(i)->gety()*ratio));
+                                           imgBoxList.at(i)->gety()*ratio), true);
     }
 }
 

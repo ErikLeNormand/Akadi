@@ -51,10 +51,14 @@ QImage ImageBox::getImage(int mapSize) const
     return image.scaled(scaledSize);
 }
 
-void ImageBox::setImage(QImage img)
+void ImageBox::setImage(QImage img, bool newImg)
 {
     image = QImage(img);
     this->setPixmap(QPixmap::fromImage(image.scaled(displaySize, Qt::KeepAspectRatio)));
+    if (newImg)
+    {
+        window->setImage(img);
+    }
 }
 
 void ImageBox::mousePressEvent ( QMouseEvent * event )
@@ -71,13 +75,9 @@ void ImageBox::mousePressEvent ( QMouseEvent * event )
                 window->setImage(image);
             }
             loaded = true;
-            window->open();
         }
     }
-    else
-    {
-        window->open();
-    }
+    window->open();
 }
 
 
