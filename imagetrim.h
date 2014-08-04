@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QDialog>
 #include <QWheelEvent>
+#include <QKeyEvent>
 
 //! The image editor class.
 /*!
@@ -72,6 +73,12 @@ protected:
      * \brief Resize image on wheel move.
      */
     void wheelEvent(QWheelEvent * event);
+    /*!
+     * \brief Move image
+     *
+     * User can use keys Z, S, Q and D to move the image to a pixel.
+     */
+    void keyPressEvent(QKeyEvent * event);
 
 signals:
     /*!

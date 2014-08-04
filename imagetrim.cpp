@@ -3,6 +3,8 @@
 #include <QPainter>
 #include <QFileDialog>
 
+#include <QDebug>
+
 ImageTrim::ImageTrim(QWidget *parent, QSize size) : QDialog(parent)
 {
     int x = size.width();
@@ -15,7 +17,7 @@ ImageTrim::ImageTrim(QWidget *parent, QSize size) : QDialog(parent)
     {
         displaySize = QSize(512/y*x,512);
     }
-    this->setFixedSize(displaySize.width()+22, displaySize.height()+51);
+    this->setFixedSize(displaySize.width()+24, displaySize.height()+53);
 
     image = QImage(displaySize, QImage::Format_ARGB32);
     image.fill(QColor(0,0,0,0));
@@ -112,7 +114,6 @@ void ImageTrim::wheelEvent(QWheelEvent * event)
     int angle = event->angleDelta().y();
     if (angle < 0)
     {
-//        ratio = ratio * 29/30;
         ratio = ratio * 49/50;
     }
     else
@@ -135,6 +136,39 @@ void ImageTrim::wheelEvent(QWheelEvent * event)
     painter.drawImage(pos, imgScaled);
     painter.end();
     editImage->setPixmap(QPixmap::fromImage(imgFinal));
+}
+
+void ImageTrim::keyPressEvent(QKeyEvent * event)
+{
+    bool moved = false;
+    switch (event->key()) {
+    case Qt::Key_Z:
+        pos.setY(pos.y()-1);
+        moved = true;
+        break;
+    case Qt::Key_S:
+        pos.setY(pos.y()+1);
+        moved = true;
+        break;
+    case Qt::Key_Q:
+        pos.setX(pos.x()-1);
+        moved = true;
+        break;
+    case Qt::Key_D:
+        pos.setX(pos.x()+1);
+        moved = true;
+        break;
+    default:
+        break;
+    }
+    if (moved)
+    {
+        imgFinal = QImage(image);
+        QPainter painter(&imgFinal);
+        painter.drawImage(pos, imgScaled);
+        painter.end();
+        editImage->setPixmap(QPixmap::fromImage(imgFinal));
+    }
 }
 
 void ImageTrim::loadImage()
