@@ -75,9 +75,9 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent), ui(new Ui::MainW
     comboSize->addItem(tr("2048 px : Can forgive"), 2048);
     comboSize->addItem(tr("4096 px : Recommended"), 4096);
     comboSize->addItem(tr("6144 px : For PC Gamer"), 6144);
-    comboSize->addItem(tr("8192 px : Insame"), 8192);
+    comboSize->addItem(tr("8192 px : HardCore"), 8192);
     comboSize->addItem(tr("12288 px : Insame"), 12288);
-    comboSize->addItem(tr("16384 px : Insame"), 16384);
+    comboSize->addItem(tr("16384 px : No, You didn't ?"), 16384);
 
     if (QIcon::hasThemeIcon("document-open"))
     {
