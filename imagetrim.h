@@ -28,8 +28,9 @@ private:
     QImage image;               /*!< Draw plan */
     QImage imgSrc;              /*!< Image without modification */
     QImage imgScaled;           /*!< Scaled image */
-    QImage imgFinal;            /*!< Final image */
+//    QImage imgFinal;            /*!< Final image */
     double ratio;               /*!< Ratio used to resize image */
+    QSize format;
     QPoint pos;                 /*!< Image position */
     QPoint mousePos0;           /*!< Mouse position on mouse press */
     QPoint mousePos1;           /*!< Mouse position on mouse release */
@@ -38,6 +39,13 @@ private:
     QLabel * editImage;         /*!< Image display */
     QPushButton * buttAccept;   /*!< Button to valid modification */
     QPushButton * buttLoad;     /*!< Button to load a new image */
+
+    /*!
+     * \brief Display the image
+     * \param otherPos True if don't use pos
+     * \param position New position of the image
+     */
+    void displayImage(bool otherPos = false, QPoint position = QPoint(0,0));
 
 public:
     /*!

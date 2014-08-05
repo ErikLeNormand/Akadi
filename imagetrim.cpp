@@ -2,6 +2,7 @@
 
 #include <QPainter>
 #include <QFileDialog>
+#include <QResizeEvent>
 
 #include <QDebug>
 
@@ -9,15 +10,20 @@ ImageTrim::ImageTrim(QWidget *parent, QSize size) : QDialog(parent)
 {
     int x = size.width();
     int y = size.height();
+
+    int windowSize = 768;
+
     if (x>y)
     {
-        displaySize = QSize(512,512/x*y);
+        displaySize = QSize(windowSize,windowSize/x*y);
     }
     else
     {
-        displaySize = QSize(512/y*x,512);
+        displaySize = QSize(windowSize/y*x,windowSize);
     }
     this->setFixedSize(displaySize.width()+24, displaySize.height()+53);
+
+    format = size;
 
     image = QImage(displaySize, QImage::Format_ARGB32);
     image.fill(QColor(0,0,0,0));
@@ -51,7 +57,6 @@ void ImageTrim::setImage(QImage img)
 {
     imgSrc = img;
     imgScaled = img;
-    imgFinal = img;
     pos = QPoint(0,0);
     ratio = 1;
 
@@ -67,9 +72,21 @@ void ImageTrim::setImage(QImage img)
     }
     imgScaled = imgSrc.scaledToWidth(imgSrc.width()*ratio);
 
+    this->displayImage();
+}
+
+void ImageTrim::displayImage(bool otherPos, QPoint position)
+{
     QImage tmpImage(image);
     QPainter painter(&tmpImage);
-    painter.drawImage(pos, imgScaled);
+    if (otherPos)
+    {
+        painter.drawImage(position, imgScaled);
+    }
+    else
+    {
+        painter.drawImage(pos, imgScaled);
+    }
     painter.end();
     editImage->setPixmap(QPixmap::fromImage(tmpImage));
 }
@@ -87,11 +104,7 @@ void ImageTrim::mouseMoveEvent ( QMouseEvent * event )
 
     QPoint posTmp = pos + (mousePos1-mousePos0);
 
-    QImage tmpImage(image);
-    QPainter painter(&tmpImage);
-    painter.drawImage(posTmp, imgScaled);
-    painter.end();
-    editImage->setPixmap(QPixmap::fromImage(tmpImage));
+    this->displayImage(true, posTmp);
 }
 
 void ImageTrim::mouseReleaseEvent ( QMouseEvent * event )
@@ -101,11 +114,7 @@ void ImageTrim::mouseReleaseEvent ( QMouseEvent * event )
 
     pos = pos + (mousePos1-mousePos0);
 
-    imgFinal = QImage(image);
-    QPainter painter(&imgFinal);
-    painter.drawImage(pos, imgScaled);
-    painter.end();
-    editImage->setPixmap(QPixmap::fromImage(imgFinal));
+    this->displayImage();
 }
 
 void ImageTrim::wheelEvent(QWheelEvent * event)
@@ -131,11 +140,7 @@ void ImageTrim::wheelEvent(QWheelEvent * event)
     y = imgScaled.height() - y;
     pos.setY(pos.y() - y/2);
 
-    imgFinal = QImage(image);
-    QPainter painter(&imgFinal);
-    painter.drawImage(pos, imgScaled);
-    painter.end();
-    editImage->setPixmap(QPixmap::fromImage(imgFinal));
+    this->displayImage();
 }
 
 void ImageTrim::keyPressEvent(QKeyEvent * event)
@@ -143,19 +148,19 @@ void ImageTrim::keyPressEvent(QKeyEvent * event)
     bool moved = false;
     switch (event->key()) {
     case Qt::Key_Z:
-        pos.setY(pos.y()-1);
-        moved = true;
-        break;
-    case Qt::Key_S:
         pos.setY(pos.y()+1);
         moved = true;
         break;
+    case Qt::Key_S:
+        pos.setY(pos.y()-1);
+        moved = true;
+        break;
     case Qt::Key_Q:
-        pos.setX(pos.x()-1);
+        pos.setX(pos.x()+1);
         moved = true;
         break;
     case Qt::Key_D:
-        pos.setX(pos.x()+1);
+        pos.setX(pos.x()-1);
         moved = true;
         break;
     default:
@@ -163,11 +168,7 @@ void ImageTrim::keyPressEvent(QKeyEvent * event)
     }
     if (moved)
     {
-        imgFinal = QImage(image);
-        QPainter painter(&imgFinal);
-        painter.drawImage(pos, imgScaled);
-        painter.end();
-        editImage->setPixmap(QPixmap::fromImage(imgFinal));
+        this->displayImage();
     }
 }
 
@@ -186,11 +187,14 @@ void ImageTrim::loadImage()
 
 void ImageTrim::acceptModif()
 {
-    imgFinal = QImage(image.scaled(displaySize*4));
-    QPainter painter(&imgFinal);
-    painter.drawImage(pos*4, imgSrc.scaledToWidth(imgSrc.width()*ratio*4));
+    QImage imgFinal = QImage(image.scaled(format*1024));
+    double imgDif = 1 / double(displaySize.width()) * format.width()*1024;
+    QPoint posFinal = pos * imgDif;
 
+    QPainter painter(&imgFinal);
+    painter.drawImage(posFinal, imgSrc.scaledToWidth(imgSrc.width()*ratio*imgDif));
     painter.end();
     emit accepted(imgFinal);
     this->accept();
 }
+

@@ -11,7 +11,7 @@ ImageBox::ImageBox(int fromRow, int fromCol, int height, int width)
     x = width;
     y = height;
 
-    displaySize = QSize(32*x, 32*y);
+    displaySize = QSize(48*x, 48*y);
 
     this->setMaximumSize(displaySize);
     this->setMinimumSize(displaySize);
