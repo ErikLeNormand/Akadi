@@ -11,6 +11,7 @@
 #include <QComboBox>
 
 #include "imagebox.h"
+#include "helpinfobox.h"
 
 namespace Ui
 {
@@ -31,6 +32,7 @@ private:
     QList<ImageBox*> imgBoxList;    /*!< List of ImageBox where images are displayed */
     int mapSize;                    /*!< Final image definition */
     QComboBox * comboSize;          /*!< Combo box used to choose the image definition */
+    HelpInfoBox * hiBox;
 
 public:
     /*!
@@ -79,6 +81,10 @@ private slots:
      * Action to open image file in game engine format to rework an image.
      */
     void on_actionOpenFile_triggered();
+    /*!
+     * \brief Open window with help and infos
+     */
+    void on_actionHelpInfos_triggered();
 };
 
 #endif // MAINWINDOW_H

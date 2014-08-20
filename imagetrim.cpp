@@ -4,14 +4,10 @@
 #include <QFileDialog>
 #include <QResizeEvent>
 
-#include <QDebug>
-
-ImageTrim::ImageTrim(QWidget *parent, QSize size) : QDialog(parent)
+ImageTrim::ImageTrim(QWidget *parent, QSize size, int windowSize) : QDialog(parent)
 {
     int x = size.width();
     int y = size.height();
-
-    int windowSize = 768;
 
     if (x>y)
     {
@@ -22,6 +18,12 @@ ImageTrim::ImageTrim(QWidget *parent, QSize size) : QDialog(parent)
         displaySize = QSize(windowSize/y*x,windowSize);
     }
     this->setFixedSize(displaySize.width()+24, displaySize.height()+53);
+
+    this->setWindowTitle("Image editor");
+    if (QIcon::hasThemeIcon("applications-graphics"))
+    {
+        this->setWindowIcon(QIcon::fromTheme("applications-graphics"));
+    }
 
     format = size;
 
@@ -39,7 +41,7 @@ ImageTrim::ImageTrim(QWidget *parent, QSize size) : QDialog(parent)
     this->setLayout(diagLayout);
     editImage = new QLabel();
     editImage->setIndent(100);
-    editImage->setStyleSheet("background-color:white;border: 1px solid black;");
+    editImage->setStyleSheet("background-color:white; border: 1px solid black;");
 
     diagLayout->addWidget(editImage);
     diagLayout->addLayout(buttonLayout);

@@ -1,4 +1,4 @@
-# Akadi : Minecraft painting generator
+# Akadi: Minecraft painting generator
 
 # # Background
 
@@ -21,7 +21,7 @@ Akadi is a "Noob Friendly" application that is very easy to use.
 
 1. When launching the application, you will see displayed all the images used by default for Minecraft tables.
 2. To change one, just click on it. A window will open for you to choose the new image you want to use.
-3. Once the selected image will be displayed in a window of the size of the table. You can adjust it by dragging image or resizing with the mouse wheel.
+3. Once the selected image will be displayed in a window of the size of the table. You can adjust it by dragging image or resizing with the mouse wheel. You can also use the keys z,q,s and d to move it pixel by pixel.
 4. When the adjustment is right for you, simply click on submit button. You will see the new image in the main window.
 5. When you are satisfied of tables, you can generate the file that will be used by the game.
 For this you have two options :

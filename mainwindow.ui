@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>463</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -36,6 +36,7 @@
     <addaction name="actionGenerate"/>
     <addaction name="actionGeneratePack"/>
     <addaction name="actionOpenFile"/>
+    <addaction name="actionHelpInfos"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -88,27 +89,22 @@
     <string>Open file</string>
    </property>
   </action>
+  <action name="actionHelpInfos">
+   <property name="icon">
+    <iconset resource="ressource.qrc">
+     <normaloff>:/new/image/info</normaloff>:/new/image/info</iconset>
+   </property>
+   <property name="text">
+    <string>Help &amp; infos</string>
+   </property>
+   <property name="toolTip">
+    <string>Help infos</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="ressource.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>actionExit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>231</x>
-     <y>244</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

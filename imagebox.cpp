@@ -2,7 +2,7 @@
 
 #include <QFileDialog>
 
-ImageBox::ImageBox(int fromRow, int fromCol, int height, int width)
+ImageBox::ImageBox(int fromRow, int fromCol, int height, int width, int def)
 {
     loaded = false;
 
@@ -11,12 +11,12 @@ ImageBox::ImageBox(int fromRow, int fromCol, int height, int width)
     x = width;
     y = height;
 
-    displaySize = QSize(48*x, 48*y);
+    displaySize = QSize(def*x, def*y);
 
     this->setMaximumSize(displaySize);
     this->setMinimumSize(displaySize);
 
-    window = new ImageTrim(this, QSize(x,y));
+    window = new ImageTrim(this, QSize(x,y), def*16);
     QObject::connect(window, SIGNAL(accepted(QImage)),this, SLOT(setImage(QImage)));
 }
 
@@ -61,7 +61,7 @@ void ImageBox::setImage(QImage img, bool newImg)
     }
 }
 
-void ImageBox::mousePressEvent ( QMouseEvent * event )
+void ImageBox::mousePressEvent(QMouseEvent * event)
 {
     event->ignore();
     if (!loaded)
@@ -74,8 +74,8 @@ void ImageBox::mousePressEvent ( QMouseEvent * event )
                 this->setImage(image);
                 window->setImage(image);
             }
-            loaded = true;
         }
+        loaded = true;
     }
     window->open();
 }

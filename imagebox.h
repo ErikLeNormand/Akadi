@@ -37,8 +37,9 @@ public:
      * \param fromCol Horizontal position
      * \param height Image Height
      * \param width Image Width
+     * \param def Definition of 1x1 image
      */
-    ImageBox(int fromRow = 0, int fromCol = 0, int height = 1, int width = 1);
+    ImageBox(int fromRow = 0, int fromCol = 0, int height = 1, int width = 1, int def = 32);
     /*!
      * \brief Return horizontal image position
      */

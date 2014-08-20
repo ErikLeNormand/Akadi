@@ -51,11 +51,12 @@ public:
     /*!
      * \brief Constructor
      * \param size Format size of the painting used to resize window
+     * \param windowSize size of the edition zone
      *
      * Window where user can resize and move the loaded image.
      * Format size corresponds to painting format.
      */
-    explicit ImageTrim(QWidget * parent, QSize size);
+    explicit ImageTrim(QWidget * parent, QSize size, int windowSize);
     /*!
      * \brief Load an image
      * \param img New image to load.

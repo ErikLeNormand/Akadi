@@ -3,65 +3,73 @@
 
 #include <QPainter>
 #include <QFileDialog>
+#include <QDesktopWidget>
 
 MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->setWindowTitle(tr("Minecraft painting generator"));
+    if (QIcon::hasThemeIcon("applications-graphics"))
+    {
+        this->setWindowIcon(QIcon::fromTheme("applications-graphics"));
+    }
 
-    mapSize = 512;
+    QRect rec = QApplication::desktop()->screenGeometry();
+    int def = (rec.height() - 140) / 16 ;
+    mapSize = 0;
+
     QImage base(":/new/image/base");
 
     for(int i=0; i<7; i++)
     {
-        ImageBox * box = new ImageBox(0,i,1,1);
+        ImageBox * box = new ImageBox(0,i,1,1,def);
         ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
         imgBoxList.append(box);
     }
 
     for (int i=0; i<5; i++)
     {
-        ImageBox * box = new ImageBox(2,i*2,1,2);
+        ImageBox * box = new ImageBox(2,i*2,1,2,def);
         ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
         imgBoxList.append(box);
     }
 
     for (int i=0; i<2; i++)
     {
-        ImageBox * box = new ImageBox(4,i,2,1);
+        ImageBox * box = new ImageBox(4,i,2,1,def);
         ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
         imgBoxList.append(box);
     }
 
     {
-        ImageBox * box = new ImageBox(6,0,2,4);
+        ImageBox * box = new ImageBox(6,0,2,4,def);
         ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
         imgBoxList.append(box);
     }
 
     for (int i=0; i<6; i++)
     {
-        ImageBox * box = new ImageBox(8,i*2,2,2);
+        ImageBox * box = new ImageBox(8,i*2,2,2,def);
         ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
         imgBoxList.append(box);
     }
 
     for (int i=0; i<3; i++)
     {
-        ImageBox * box = new ImageBox(12,i*4,4,4);
+        ImageBox * box = new ImageBox(12,i*4,4,4,def);
         ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
         imgBoxList.append(box);
     }
 
     {
-        ImageBox * box = new ImageBox(0,12,4,4);
+        ImageBox * box = new ImageBox(0,12,4,4,def);
         ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
         imgBoxList.append(box);
     }
 
     for (int i=0; i<2; i++)
     {
-        ImageBox * box = new ImageBox(4+3*i,12,3,4);
+        ImageBox * box = new ImageBox(4+3*i,12,3,4,def);
         ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
         imgBoxList.append(box);
     }
@@ -83,23 +91,33 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent), ui(new Ui::MainW
     {
         ui->actionOpenFile->setIcon(QIcon::fromTheme("document-open"));
     }
-
     if (QIcon::hasThemeIcon("document-save"))
     {
         ui->actionGenerate->setIcon(QIcon::fromTheme("document-save"));
     }
-
     if (QIcon::hasThemeIcon("document-save-as"))
     {
         ui->actionGeneratePack->setIcon(QIcon::fromTheme("document-save-as"));
     }
-
     if (QIcon::hasThemeIcon("application-exit"))
     {
         ui->actionExit->setIcon(QIcon::fromTheme("application-exit"));
     }
+    if (QIcon::hasThemeIcon("help-about"))
+    {
+        ui->actionHelpInfos->setIcon(QIcon::fromTheme("help-about"));
+    }
 
     ui->mainToolBar->addWidget(comboSize);
+    ui->mainToolBar->addSeparator();
+    QWidget * spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    ui->mainToolBar->addWidget(spacer);
+    ui->mainToolBar->addAction(ui->actionHelpInfos);
+
+    hiBox = new HelpInfoBox();
+
+    QObject::connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
@@ -179,14 +197,7 @@ void MainWindow::generate(QString fileName)
     ui->statusBar->showMessage(tr("The file is generated."), 2000);
 }
 
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::on_actionHelpInfos_triggered()
+{
+    hiBox->show();
+}

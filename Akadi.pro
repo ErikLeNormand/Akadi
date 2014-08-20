@@ -15,13 +15,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     imagebox.cpp \
-    imagetrim.cpp
+    imagetrim.cpp \
+    helpinfobox.cpp
 
 HEADERS  += mainwindow.h \
     imagebox.h \
-    imagetrim.h
+    imagetrim.h \
+    helpinfobox.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    helpinfobox.ui
 
 RESOURCES += \
     ressource.qrc
