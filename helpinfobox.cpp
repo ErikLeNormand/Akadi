@@ -10,6 +10,7 @@ HelpInfoBox::HelpInfoBox(QWidget *parent) :
     {
         this->setWindowIcon(QIcon::fromTheme("help-about"));
     }
+    this->setFixedSize(this->size());
 }
 
 HelpInfoBox::~HelpInfoBox()

@@ -95,10 +95,10 @@
      <normaloff>:/new/image/info</normaloff>:/new/image/info</iconset>
    </property>
    <property name="text">
-    <string>Help &amp; infos</string>
+    <string>Infos</string>
    </property>
    <property name="toolTip">
-    <string>Help infos</string>
+    <string>Infos</string>
    </property>
   </action>
  </widget>
