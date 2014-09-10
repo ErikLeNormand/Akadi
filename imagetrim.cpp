@@ -28,7 +28,7 @@ ImageTrim::ImageTrim(QWidget *parent, QSize size, int windowSize) : QDialog(pare
     format = size;
 
     image = QImage(displaySize, QImage::Format_ARGB32);
-    image.fill(QColor(0,0,0,0));
+    image.fill(QColor(0,0,0,0));\
 
     ratio = 1;
     pos = QPoint(0,0);
@@ -42,6 +42,7 @@ ImageTrim::ImageTrim(QWidget *parent, QSize size, int windowSize) : QDialog(pare
     editImage = new QLabel();
     editImage->setIndent(100);
     editImage->setStyleSheet("background-color:white; border: 1px solid black;");
+    editImage->setCursor(QCursor(Qt::OpenHandCursor));
 
     diagLayout->addWidget(editImage);
     diagLayout->addLayout(buttonLayout);

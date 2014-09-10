@@ -5,6 +5,12 @@
 #include <QFileDialog>
 #include <QDesktopWidget>
 
+#define initBox(x,y,w,h,def) \
+    ImageBox * box = new ImageBox(x,y,w,h,def); \
+    box->setCursor(QCursor(Qt::PointingHandCursor)); \
+    ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx()); \
+    imgBoxList.append(box);
+
 MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -22,56 +28,33 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent), ui(new Ui::MainW
 
     for(int i=0; i<7; i++)
     {
-        ImageBox * box = new ImageBox(0,i,1,1,def);
-        ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
-        imgBoxList.append(box);
+        initBox(0,i,1,1,def)
     }
-
     for (int i=0; i<5; i++)
     {
-        ImageBox * box = new ImageBox(2,i*2,1,2,def);
-        ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
-        imgBoxList.append(box);
+        initBox(2,i*2,1,2,def);
     }
-
     for (int i=0; i<2; i++)
     {
-        ImageBox * box = new ImageBox(4,i,2,1,def);
-        ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
-        imgBoxList.append(box);
+        initBox(4,i,2,1,def);
     }
-
     {
-        ImageBox * box = new ImageBox(6,0,2,4,def);
-        ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
-        imgBoxList.append(box);
+        initBox(6,0,2,4,def);
     }
-
     for (int i=0; i<6; i++)
     {
-        ImageBox * box = new ImageBox(8,i*2,2,2,def);
-        ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
-        imgBoxList.append(box);
+        initBox(8,i*2,2,2,def);
     }
-
     for (int i=0; i<3; i++)
     {
-        ImageBox * box = new ImageBox(12,i*4,4,4,def);
-        ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
-        imgBoxList.append(box);
+        initBox(12,i*4,4,4,def);
     }
-
     {
-        ImageBox * box = new ImageBox(0,12,4,4,def);
-        ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
-        imgBoxList.append(box);
+        initBox(0,12,4,4,def);
     }
-
     for (int i=0; i<2; i++)
     {
-        ImageBox * box = new ImageBox(4+3*i,12,3,4,def);
-        ui->mainLayout->addWidget(box, box->getRow(), box->getCol(), box->gety(), box->getx());
-        imgBoxList.append(box);
+        initBox(4+3*i,12,3,4,def);
     }
 
     this->setImage(base);
